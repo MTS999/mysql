@@ -1,0 +1,111 @@
+// const express = require('express');
+// const mysql = require('mysql');
+// const bodyParser = require('body-parser');
+
+// const app = express();
+// const port = 3000;
+
+// app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
+
+// const connection = mysql.createConnection({
+//   host: 'localhost',
+//   user: 'new_user',
+//   password: 'new_password',
+//   database: 'CarRentalSystem'
+// });
+
+// // Connect to the database
+// connection.connect((err) => {
+//   if (err) {
+//     console.error('Error connecting to database: ' + err.stack);
+//     return;
+//   }
+//   console.log('Connected to database as id ' + connection.threadId);
+// });
+
+// // API endpoint to add a new user
+// app.post('/api/users', (req, res) => {
+//   const { fullname, email, password } = req.body;
+
+//   if (!fullname || !email || !password) {
+//     return res.status(400).json({ error: 'Missing required fields' });
+//   }
+
+//   const user = { fullname, email, password };
+
+//   connection.query('INSERT INTO Customer SET ?', user, (err, result) => {
+//     if (err) {
+//       console.error('Error adding user: ' + err.message);
+//       return res.status(500).json({ error: 'Failed to add user' });
+//     }
+//     console.log('User added with ID: ' + result.insertId);
+//     res.status(201).json({ message: 'User added successfully' });
+//   });
+// });
+
+
+// app.post("/api/admin", (req, res) => {
+//   const { fullname, email, password } = req.body;
+
+//   connection.query(
+//     "INSERT INTO Admin (fullname, email, password) VALUES (?, ?, ?)",
+//     [fullname, email, password],
+//     (err, result) => {
+//       if (err) {
+//         console.error('Error adding user: ' + err.message);
+//         return res.status(500).json({ error: 'Failed to add user' });
+//       }
+//       console.log('Admin added with ID: ' + result.insertId); // corrected variable name
+//       res.status(201).json({ message: 'Admin added successfully' });
+//     }
+//   );
+// });
+
+// app.post("/api/login", (req, res) => {
+//   const { email, password } = req.body;
+
+//   // Check in Admin table
+//   connection.query(
+//     "SELECT * FROM Admin WHERE email = ? AND password = ?",
+//     [email, password],
+//     (err, adminResults) => {
+//       if (err) {
+//         console.error('Error querying admin table: ' + err.message);
+//         return res.status(500).json({ error: 'Internal server error' });
+//       }
+
+//       // If admin is found, send a success response
+//       if (adminResults.length > 0) {
+//         return res.status(200).json({ userType: 'admin', message: 'Admin login successful' });
+//       }
+
+//       // If admin not found, check in Customer table
+//       connection.query(
+//         "SELECT * FROM Customer WHERE email = ? AND password = ?",
+//         [email, password],
+//         (err, customerResults) => {
+//           if (err) {
+//             console.error('Error querying customer table: ' + err.message);
+//             return res.status(500).json({ error: 'Internal server error' });
+//           }
+
+//           // If customer is found, send a success response
+//           if (customerResults.length > 0) {
+//             return res.status(200).json({ userType: 'customer', message: 'Customer login successful' });
+//           }
+
+//           // If neither admin nor customer found, send an error response
+//           return res.status(401).json({ error: 'Invalid email or password' });
+//         }
+//       );
+//     }
+//   );
+// });
+
+
+
+// // Start the server
+// app.listen(port, () => {
+//   console.log(`Server is running on http://localhost:${port}`);
+// });
