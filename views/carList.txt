@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Car List</title>
   <script>
+    // Function to send delete request
     function deleteCar(carId) {
       fetch(`/api/cars/${carId}`, {
         method: 'DELETE'
@@ -15,6 +16,7 @@
           alert('Error: ' + data.error);
         } else {
           alert('Car deleted successfully');
+          // Reload the page to see the updated car list
           window.location.reload();
         }
       })
@@ -24,10 +26,12 @@
       });
     }
 
+    // Function to show the add car form
     function showAddCarForm() {
       document.getElementById('addCarForm').style.display = 'block';
     }
 
+    // Function to handle form submission
     function addCar(event) {
       event.preventDefault();
       const form = event.target;
@@ -37,8 +41,7 @@
         model: formData.get('model'),
         year: formData.get('year'),
         price: formData.get('price'),
-        rentPerDay: formData.get('rentPerDay'),
-        status: formData.get('status')
+        rentPerDay: formData.get('rentPerDay')
       };
 
       fetch('/api/cars', {
@@ -54,6 +57,7 @@
           alert('Error: ' + data.error);
         } else {
           alert('Car added successfully');
+          // Reload the page to see the updated car list
           window.location.reload();
         }
       })
@@ -63,6 +67,7 @@
       });
     }
 
+    // Function to handle search form submission
     function searchCar(event) {
       event.preventDefault();
       const form = event.target;
@@ -77,6 +82,7 @@
         if (data.error) {
           alert('Error: ' + data.error);
         } else {
+          // Update the car list with search results
           const tableBody = document.querySelector('tbody');
           tableBody.innerHTML = '';
 
@@ -89,7 +95,6 @@
                 <td>${car.year}</td>
                 <td>${car.price}</td>
                 <td>${car.rentPerDay}</td>
-                <td>${car.status}</td>
                 <td>
                   <button onclick="deleteCar(${car.id})">Delete</button>
                 </td>
@@ -121,12 +126,6 @@
       <input type="number" id="price" name="price" step="0.01" required><br>
       <label for="rentPerDay">Rent Per Day:</label>
       <input type="number" id="rentPerDay" name="rentPerDay" step="0.01" required><br>
-      <label for="status">Status:</label>
-      <select id="status" name="status" required>
-        <option value="available">Available</option>
-        <option value="rented">Rented</option>
-        <option value="request_pending">Request Pending</option>
-      </select><br>
       <button type="submit">Add Car</button>
     </form>
   </div>
@@ -144,7 +143,6 @@
         <th>Year</th>
         <th>Price</th>
         <th>Rent Per Day</th>
-        <th>Status</th>
         <th>Action</th>
       </tr>
     </thead>
@@ -157,7 +155,6 @@
           <td><%= car.year %></td>
           <td><%= car.price %></td>
           <td><%= car.rentPerDay %></td>
-          <td><%= car.status %></td>
           <td>
             <button onclick="deleteCar(<%= car.id %>)">Delete</button>
           </td>
@@ -165,5 +162,6 @@
       <% }) %>
     </tbody>
   </table>
+  <a href="/">Home</a>
 </body>
 </html>

@@ -34,4 +34,8 @@ router.get('/carList', carController.carsDetail); // Add this route
 
 router.delete('/api/cars/:id', carController.deleteCar);
 
+router.post('/api/cars', carController.addCar);
+
+router.get('/api/cars/search', carController.searchCars);
+
 module.exports = router;
